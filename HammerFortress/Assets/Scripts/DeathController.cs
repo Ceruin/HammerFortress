@@ -4,10 +4,11 @@ using UnityEngine;
 
 public class DeathController : MonoBehaviour
 {
-    [SerializeField] Transform respawnPoint;
+    [SerializeField] List<GameObject> respawnPoints;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        collision.gameObject.transform.position = respawnPoint.position;
+        int index = Random.Range(0, respawnPoints.Count);
+        collision.gameObject.transform.position = respawnPoints[index].GetComponent<RespawnPoint>().respawnCoordinates;
     }
 }
