@@ -55,7 +55,8 @@ public class EnemyAI : MonoBehaviour
         {
             reachedEndOfPath = true;
             return;
-        } else
+        }
+        else
         {
             reachedEndOfPath = false;
         }
@@ -63,6 +64,10 @@ public class EnemyAI : MonoBehaviour
         Vector2 direction = ((Vector2)path.vectorPath[currentWaypoint] - rb.position).normalized;
         Vector2 force = direction * speed * Time.fixedDeltaTime;
 
+        if (direction.y > 0)
+        {
+            rb.AddForce(transform.up * force);
+        }
         rb.AddForce(force);
 
         float distance = Vector2.Distance(rb.position, path.vectorPath[currentWaypoint]);
@@ -72,6 +77,12 @@ public class EnemyAI : MonoBehaviour
             currentWaypoint++;
         }
 
+        FlipSprite(force);
+
+    }
+
+    private void FlipSprite(Vector2 force)
+    {
         if (force.x > 0)
         {
             enemyGFX.localScale = new Vector3(1f, 1f, 1f);
@@ -80,6 +91,5 @@ public class EnemyAI : MonoBehaviour
         {
             enemyGFX.localScale = new Vector3(-1f, 1f, 1f);
         }
-        
     }
 }

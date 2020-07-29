@@ -2,20 +2,31 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Pathfinding;
+using Assets.Scripts;
 
 public class EnemyGFX : MonoBehaviour
 {
     public AIPath aipath;
+    bool isFacingRight = true;   
 
     // Update is called once per frame
     void Update()
     {
-        if (aipath.desiredVelocity.x > 0)
+        bool wasFacingRight = isFacingRight;
+
+        if (aipath.desiredVelocity.x > 0 && !isFacingRight)
         {
-            transform.localScale = new Vector3(1f, 1f, 1f);         
-        } else if (aipath.desiredVelocity.x < 0)
-        {
-            transform.localScale = new Vector3(-1f, 1f, 1f);
+            Flip();            
         }
+        else if (aipath.desiredVelocity.x < 0 && isFacingRight)
+        {
+            Flip();
+        }
+    }
+
+    private void Flip()
+    {
+        isFacingRight = !isFacingRight;
+        SpriteUtilities.Flip(transform);
     }
 }
